@@ -21,13 +21,14 @@ class NetworkTypeReachability {
   NetworkTypeReachability._();
 
   static const MethodChannel _channel =
-  MethodChannel('flutter_plugin_reachability');
+      MethodChannel('flutter_plugin_reachability');
 
   static const EventChannel _eventChannel =
-  EventChannel("flutter_plugin_reachability_status");
+      EventChannel("flutter_plugin_reachability_status");
 
   Stream<NetworkStatus> _onNetworkStateChanged;
 
+  /// currentNetworkStatus obtain the status network in live
   Stream<NetworkStatus> get onNetworkStateChanged {
     _onNetworkStateChanged ??= _eventChannel
         .receiveBroadcastStream()
@@ -36,6 +37,7 @@ class NetworkTypeReachability {
     return _onNetworkStateChanged;
   }
 
+  /// currentNetworkStatus obtain the status network
   Future<NetworkStatus> currentNetworkStatus() async {
     final String state = await _channel.invokeMethod("networkStatus");
     return _convertFromState(state);
@@ -61,5 +63,4 @@ class NetworkTypeReachability {
         return NetworkStatus.unreachable;
     }
   }
-
 }

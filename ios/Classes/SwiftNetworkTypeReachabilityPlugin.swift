@@ -9,7 +9,7 @@ public class SwiftNetworkTypeReachabilityPlugin: NSObject, FlutterPlugin {
     private var eventSink: FlutterEventSink?
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "flutter_plugin_reachability", binaryMessenger: registrar.messenger())
-        let instance = SwiftFlutterReachabilityPlugin()
+        let instance = SwiftNetworkTypeReachabilityPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
 
         let streamChannel = FlutterEventChannel(name: "flutter_plugin_reachability_status", binaryMessenger: registrar.messenger())

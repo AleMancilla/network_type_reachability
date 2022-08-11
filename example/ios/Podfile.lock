@@ -1,0 +1,35 @@
+PODS:
+  - Flutter (1.0.0)
+  - network_type_reachability (0.0.1):
+    - Flutter
+    - ReachabilitySwift
+  - permission_handler_apple (9.0.4):
+    - Flutter
+  - ReachabilitySwift (5.0.0)
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - network_type_reachability (from `.symlinks/plugins/network_type_reachability/ios`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+
+SPEC REPOS:
+  trunk:
+    - ReachabilitySwift
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  network_type_reachability:
+    :path: ".symlinks/plugins/network_type_reachability/ios"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  network_type_reachability: f86bf2785e7362cb8e8038858c12465e11c73835
+  permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+
+COCOAPODS: 1.11.3
