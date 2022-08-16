@@ -1,6 +1,12 @@
 import 'dart:async';
+import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+import 'package:dart_ping/dart_ping.dart';
+import 'package:dart_ping_ios/dart_ping_ios.dart';
 
 enum NetworkStatus {
   unreachable,
@@ -12,9 +18,16 @@ enum NetworkStatus {
   otherMoblie
 }
 
+enum InternetStatusConnection {
+  withoutInternet,
+  withInternet,
+  unstableInternet,
+}
+
 class NetworkTypeReachability {
   static NetworkTypeReachability _instance;
   factory NetworkTypeReachability() {
+    DartPingIOS.register();
     _instance ??= NetworkTypeReachability._();
     return _instance;
   }
@@ -45,22 +58,80 @@ class NetworkTypeReachability {
 
   NetworkStatus _convertFromState(String state) {
     switch (state) {
-      case "0":
+      case "unreach":
         return NetworkStatus.unreachable;
-      case "1":
+      case "mobile2G":
         return NetworkStatus.mobile2G;
-      case "2":
+      case "moblie3G":
         return NetworkStatus.moblie3G;
-      case "3":
+      case "wifi":
         return NetworkStatus.wifi;
-      case "4":
+      case "moblie4G":
         return NetworkStatus.moblie4G;
-      case "5":
+      case "moblie5G":
         return NetworkStatus.moblie5G;
-      case "6":
+      case "moblieOther":
         return NetworkStatus.otherMoblie;
       default:
         return NetworkStatus.unreachable;
+    }
+  }
+
+  Future<PermissionStatus> get getPermisionsAndroid async =>
+      await Permission.phone.request();
+
+  Future<InternetStatusConnection> getInternetStatusConnection({
+    urlTest = 'google.com',
+    countPing = 3,
+    timeOutIntents = 5,
+    showLogs = false,
+  }) async {
+    Ping ping = Ping(urlTest, count: countPing);
+    PingData pingData = await ping.stream.last
+        .timeout(
+      Duration(seconds: timeOutIntents),
+    )
+        .catchError((e) {
+      return null;
+    }).onError((error, stackTrace) {
+      return null;
+    });
+    if (showLogs) {
+      log('Running PING ===== > $pingData');
+    }
+    try {
+      if (pingData.summary.transmitted == pingData.summary.received) {
+        return InternetStatusConnection.withInternet;
+      } else if (pingData.summary.transmitted > 0 &&
+          pingData.summary.received > 0) {
+        return InternetStatusConnection.unstableInternet;
+      } else {
+        return InternetStatusConnection.withoutInternet;
+      }
+    } catch (e) {
+      return InternetStatusConnection.withoutInternet;
+    }
+  }
+
+  bool listenInternet = true;
+  bool get listenInternetConnection => listenInternet;
+  set listenInternetConnection(data) {
+    listenInternet = data;
+  }
+
+  Stream<InternetStatusConnection> getStreamInternetConnection(
+      {showLogs = false}) async* {
+    InternetStatusConnection globalStatusConnection;
+    while (listenInternetConnection) {
+      try {
+        InternetStatusConnection statusConnection =
+            await getInternetStatusConnection(showLogs: showLogs);
+        if (globalStatusConnection != statusConnection) {
+          globalStatusConnection = statusConnection;
+          yield globalStatusConnection;
+        }
+      } catch (error) {}
+      await Future.delayed(const Duration(seconds: 5));
     }
   }
 }

@@ -110,14 +110,14 @@ extension SwiftNetworkTypeReachabilityPlugin: FlutterStreamHandler {
         }
     }
 
-    enum NetworkStatus: Int {
-        case unreach = 0
-        case mobile2G = 1
-        case moblie3G = 2
-        case wifi = 3
-        case moblie4G = 4
-        case moblie5G = 5
-        case other = 6
+    enum NetworkStatus: String {
+        case unreach = "unreach"
+        case mobile2G = "mobile2G"
+        case moblie3G = "moblie3G"
+        case wifi = "wifi"
+        case moblie4G = "moblie4G"
+        case moblie5G = "moblie5G"
+        case other = "moblieOther"
         var value: String{
             return "\(self.rawValue)"
         }

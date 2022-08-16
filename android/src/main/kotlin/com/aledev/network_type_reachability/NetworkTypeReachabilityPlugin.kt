@@ -84,7 +84,7 @@ class NetworkTypeReachabilityPlugin: FlutterPlugin, MethodCallHandler,EventChann
 private  class NetworkBroadcastReceiver(val events: EventChannel.EventSink?,val connectivityManager: ConnectivityManager,val context: Context): BroadcastReceiver() {
   @RequiresApi(Build.VERSION_CODES.N)
   override fun onReceive(p0: Context?, p1: Intent?) {
-    print("change in red")
+    print("change red")
     events?.success(getNetworkState(connectivityManager,context));
   }
 }
@@ -96,10 +96,10 @@ private  fun getNetworkState(connectivityManager: ConnectivityManager, context: 
     val network = connectivityManager.activeNetwork
     val capabilities = connectivityManager.getNetworkCapabilities(network)
     if (capabilities == null){
-      return NetworkState.unReachable.ordinal.toString()
+      return NetworkState.unReachable.toString()
     }
     if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-      return NetworkState.wifi.ordinal.toString()
+      return NetworkState.wifi.toString()
     }
 
     if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
@@ -108,32 +108,32 @@ private  fun getNetworkState(connectivityManager: ConnectivityManager, context: 
   }else{
     val networkInfo = connectivityManager.activeNetworkInfo
     if (networkInfo == null || !networkInfo.isConnected) {
-      return NetworkState.unReachable.ordinal.toString()
+      return NetworkState.unReachable.toString()
     }
     val type = networkInfo.type
     when(type){
       ConnectivityManager.TYPE_ETHERNET,ConnectivityManager.TYPE_WIFI,ConnectivityManager.TYPE_WIMAX -> {
-        return NetworkState.wifi.ordinal.toString()
+        return NetworkState.wifi.toString()
       }
       ConnectivityManager.TYPE_MOBILE,ConnectivityManager.TYPE_MOBILE_DUN,ConnectivityManager.TYPE_MOBILE_HIPRI -> {
         return getMobileNetworkType(context)
       }
-      else -> return NetworkState.unReachable.ordinal.toString()
+      else -> return NetworkState.unReachable.toString()
     }
   }
-  return NetworkState.unReachable.ordinal.toString()
+  return NetworkState.unReachable.toString()
 }
 
 @RequiresApi(Build.VERSION_CODES.N)
 private  fun getMobileNetworkType(context: Context): String {
   if (context == null) {
-    return NetworkState.moblieOther.ordinal.toString()
+    return NetworkState.moblieOther.toString()
   }
 
   //在这里权限检查
   val ret =  ContextCompat.checkSelfPermission(context,android.Manifest.permission.READ_PHONE_STATE)
   if (ret == PackageManager.PERMISSION_DENIED) {
-    return NetworkState.moblieOther.ordinal.toString()
+    return NetworkState.moblieOther.toString()
   }
 
   val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -145,7 +145,7 @@ private  fun getMobileNetworkType(context: Context): String {
           TelephonyManager.NETWORK_TYPE_IDEN
   )
   if (telephonyManager.dataNetworkType in moblie2G_types) {
-    return NetworkState.moblie2G.ordinal.toString()
+    return NetworkState.moblie2G.toString()
   }
   val moblie3G_types = arrayOf(
           TelephonyManager.NETWORK_TYPE_UMTS,
@@ -159,15 +159,15 @@ private  fun getMobileNetworkType(context: Context): String {
           TelephonyManager.NETWORK_TYPE_HSPAP
   )
   if (telephonyManager.dataNetworkType in moblie3G_types) {
-    return NetworkState.moblie3G.ordinal.toString()
+    return NetworkState.moblie3G.toString()
   }
   if (telephonyManager.dataNetworkType == TelephonyManager.NETWORK_TYPE_LTE) {
-    return NetworkState.moblie4G.ordinal.toString()
+    return NetworkState.moblie4G.toString()
   }
   if (telephonyManager.dataNetworkType == TelephonyManager.NETWORK_TYPE_NR) {
-    return NetworkState.moblie5G.ordinal.toString()
+    return NetworkState.moblie5G.toString()
   }
-  return NetworkState.moblieOther.ordinal.toString()
+  return NetworkState.moblieOther.toString()
 }
 
 

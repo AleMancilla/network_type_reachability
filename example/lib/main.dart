@@ -23,45 +23,43 @@ class _MyAppState extends State<MyApp> {
   String _networkTypeSuscription = 'Unknown';
   StreamSubscription<NetworkStatus> subscriptionNetworkType;
 
-  bool connectivityExist = false;
+  String connectivityInternetStatic = 'Unknown';
 
-  StreamSubscription<bool> subscriptionNetworkConnection;
-  bool connectivityExistSuscription = false;
+  String connectivityInternetSuscription = 'Unknown';
+  StreamSubscription<InternetStatusConnection> subscriptionInternetConnection;
 
   @override
   void initState() {
     super.initState();
     _listenNetworkStatus();
-    // _listenNetworkConnection();
+    _listenInternetConnection();
   }
 
   _listenNetworkStatus() async {
     if (Platform.isAndroid) {
-      // await Permission.phone.request();
-      // await NetworkTypeReachability().getPermisionsAndroid;
+      await NetworkTypeReachability().getPermisionsAndroid;
     }
     subscriptionNetworkType =
         NetworkTypeReachability().onNetworkStateChanged.listen((event) {
-      print('------xxxxxxxxxx');
       setState(() {
         _networkTypeSuscription = "$event";
       });
     });
   }
 
-  _listenNetworkConnection() async {
-    subscriptionNetworkConnection = getStreamConnection().listen((event) {
-      print('------yyyyyyyyyy');
+  _listenInternetConnection() async {
+    subscriptionInternetConnection = NetworkTypeReachability()
+        .getStreamInternetConnection(showLogs: false)
+        .listen((event) {
       setState(() {
-        connectivityExistSuscription = event;
+        connectivityInternetSuscription = event.toString();
       });
     });
   }
 
   _getCurrentNetworkStatus() async {
     if (Platform.isAndroid) {
-      // await Permission.phone.request();
-      // await NetworkTypeReachability().getPermisionsAndroid;
+      await NetworkTypeReachability().getPermisionsAndroid;
     }
     NetworkStatus status =
         await NetworkTypeReachability().currentNetworkStatus();
@@ -88,10 +86,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     subscriptionNetworkType.cancel();
-    subscriptionNetworkConnection.cancel();
+    subscriptionInternetConnection.cancel();
+    NetworkTypeReachability().listenInternetConnection = false;
   }
 
   @override
@@ -163,13 +161,21 @@ class _MyAppState extends State<MyApp> {
                       children: [
                         const Text('Status Internet Conection : '),
                         Text(
-                          '$connectivityExist = ${connectivityExist == true ? 'You have' : 'you don\'t have'} internet',
+                          '$connectivityInternetStatic',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextButton(
                           onPressed: () async {
-                            connectivityExist = await NetworkTypeReachability()
-                                .getIfConnectivityExist();
+                            print('#=======> cargando');
+                            connectivityInternetStatic = 'loading...';
+                            setState(() {});
+                            InternetStatusConnection data =
+                                await NetworkTypeReachability()
+                                    .getInternetStatusConnection();
+                            print(data);
+                            print('#=======> finalizando');
+
+                            connectivityInternetStatic = data.toString();
                             setState(() {});
                           },
                           child: Text('Get-Data'),
@@ -189,50 +195,17 @@ class _MyAppState extends State<MyApp> {
                       children: [
                         const Text('Status Internet Conection : '),
                         Text(
-                          '$connectivityExistSuscription = ${connectivityExistSuscription == true ? 'You have' : 'you don\'t have'} internet',
+                          '$connectivityInternetSuscription',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
                   ),
                 ),
-              ],
-            ),
-            _expandedContainerRow(
-              color: Colors.blue,
-              children: [
-                Expanded(
-                  child: _box(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const Text('NETWORK_TYPE : '),
-                        Text(
-                          _networkTypeStatic,
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            _getCurrentNetworkStatus();
-                          },
-                          child: Text('Get-Data'),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(
-                                Color.fromARGB(255, 162, 229, 188)),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(child: _box(child: Text('data'))),
               ],
             ),
           ],
         ),
-        // Center(
-        //   child: Text('Running on: $_networkStatus\n'),
-        // ),
       ),
     );
   }
@@ -266,25 +239,5 @@ class _MyAppState extends State<MyApp> {
       height: double.infinity,
       child: child,
     );
-  }
-
-  Stream<bool> getStreamConnection() async* {
-    bool enabled;
-    print('x===>> iniciando ');
-    while (true) {
-      print('x===>>vuelta');
-      try {
-        bool isEnabled =
-            await await NetworkTypeReachability().getIfConnectivityExist();
-        print('x===>> $isEnabled');
-        if (enabled != isEnabled) {
-          enabled = isEnabled;
-          yield enabled;
-        }
-      } catch (error) {
-        print('x===>> $error');
-      }
-      await Future.delayed(Duration(seconds: 5));
-    }
   }
 }

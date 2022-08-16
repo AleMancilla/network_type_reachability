@@ -8,6 +8,11 @@ environment:
   flutter: ">=1.20.0"
 
 dependencies:
+  permission_handler: ^9.2.0
+
+  dart_ping: 
+  dart_ping_ios: 
+  
   flutter:
     sdk: flutter
 
