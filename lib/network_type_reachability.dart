@@ -95,11 +95,10 @@ class NetworkTypeReachability {
     Ping ping = Ping(urlTest, count: countPing);
     PingData pingData = await ping.stream.last
         .timeout(
-      Duration(seconds: timeOutIntents),
-    )
-        .catchError((e) {
-      return null;
-    }).onError((error, stackTrace) {
+          Duration(seconds: timeOutIntents),
+        )
+        .catchError((e) {})
+        .onError((error, stackTrace) {
       return throw error!;
     });
     if (showLogs) {
