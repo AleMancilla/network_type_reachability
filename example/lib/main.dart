@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:network_type_reachability/network_type_reachability.dart';
-// import 'package:permission_handler/permission_handler.dart';
 
 void main() {
   runApp(const MyApp());
@@ -97,39 +96,66 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Network Type Reachability s'),
+          title: const Text('Network Type Reachability'),
           backgroundColor: Colors.blueAccent[900],
         ),
         body: Column(
           children: [
             _expandedContainerRow(
               flex: 1,
-              color: Colors.blue,
+              color: Colors.blueGrey[900],
               children: [
-                Expanded(child: _box(child: const Text('Static Data'))),
-                Expanded(child: _box(child: const Text('Listen to changes'))),
+                Expanded(
+                  child: _box(
+                    child: const Center(
+                      child: Text(
+                        'Static Data',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: _box(
+                    child: const Center(
+                      child: Text(
+                        'Listen to changes',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
             _expandedContainerRow(
               children: [
                 Expanded(
                   child: _box(
+                    color: _colorStatusNetworkType(_networkTypeStatic),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         const Text('NETWORK_TYPE : '),
                         Text(
                           _networkTypeStatic,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextButton(
                           onPressed: () {
                             _getCurrentNetworkStatus();
                           },
-                          child: Text('Get-Data'),
+                          child: const Text('Get-Data'),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Color.fromARGB(255, 162, 229, 188)),
+                                const Color.fromARGB(255, 162, 229, 188)),
                           ),
                         )
                       ],
@@ -138,13 +164,14 @@ class _MyAppState extends State<MyApp> {
                 ),
                 Expanded(
                   child: _box(
+                    color: _colorStatusNetworkType(_networkTypeSuscription),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text('NETWORK_TYPE Suscription: '),
                         Text(
                           _networkTypeSuscription,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -156,13 +183,14 @@ class _MyAppState extends State<MyApp> {
               children: [
                 Expanded(
                   child: _box(
+                    color: _colorStatusInternetType(connectivityInternetStatic),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         const Text('Status Internet Conection : '),
                         Text(
-                          '$connectivityInternetStatic',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          connectivityInternetStatic,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         TextButton(
                           onPressed: () async {
@@ -178,10 +206,10 @@ class _MyAppState extends State<MyApp> {
                             connectivityInternetStatic = data.toString();
                             setState(() {});
                           },
-                          child: Text('Get-Data'),
+                          child: const Text('Get-Data'),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Color.fromARGB(255, 162, 229, 188)),
+                                const Color.fromARGB(255, 162, 229, 188)),
                           ),
                         )
                       ],
@@ -190,13 +218,15 @@ class _MyAppState extends State<MyApp> {
                 ),
                 Expanded(
                   child: _box(
+                    color: _colorStatusInternetType(
+                        connectivityInternetSuscription),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text('Status Internet Conection : '),
                         Text(
-                          '$connectivityInternetSuscription',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          connectivityInternetSuscription,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -231,13 +261,57 @@ class _MyAppState extends State<MyApp> {
     Color color = Colors.transparent,
   }) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black),
+        border: Border.all(color: Colors.black26),
         color: color,
       ),
       height: double.infinity,
       child: child,
     );
+  }
+
+  Color _colorStatusNetworkType(String data) {
+    // case NetworkStatus.unreachable:
+    // case NetworkStatus.wifi:
+    // case NetworkStatus.mobile2G:
+    // case NetworkStatus.moblie3G:
+    // case NetworkStatus.moblie4G:
+    // case NetworkStatus.moblie5G:
+    // case NetworkStatus.otherMoblie:
+    switch (data) {
+      case 'Unknown':
+        return Colors.yellow.shade100;
+        break;
+      case 'NetworkStatus.unreachable':
+        return Colors.red.shade100;
+        break;
+      default:
+        return Colors.green.shade100;
+        break;
+    }
+  }
+
+  Color _colorStatusInternetType(String data) {
+    // withoutInternet,
+    // withInternet,
+    // unstableInternet,
+    switch (data) {
+      case 'Unknown':
+        return Colors.yellow.shade100;
+        break;
+      case 'InternetStatusConnection.withoutInternet':
+        return Colors.red.shade100;
+        break;
+      case 'InternetStatusConnection.withInternet':
+        return Colors.green.shade100;
+        break;
+      case 'InternetStatusConnection.unstableInternet':
+        return Colors.brown.shade100;
+        break;
+      default:
+        return Colors.yellow.shade100;
+        break;
+    }
   }
 }
