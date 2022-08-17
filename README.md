@@ -5,10 +5,14 @@ This library is based on and inspired by the library "[flutter_reachability](htt
 This library uses the following dependencies
 
 [permission_handler: 9.2.0](https://pub.dev/packages/permission_handler/versions/9.2.0)<br>
-[dart_ping:](https://pub.dev/packages/dart_ping)<br>
-[dart_ping_ios:](https://pub.dev/packages/dart_ping_ios)
+[dart_ping: ^6.1.2](https://pub.dev/packages/dart_ping)<br>
+[dart_ping_ios: ^1.1.0](https://pub.dev/packages/dart_ping_ios)
 
 Next, the necessary configurations for the correct operation of "Network_type_reachability" will be shown, but it is recommended to take a look at the original packages.
+
+***
+
+To use the version prior to NullSafety use the version [1.2.1](https://pub.dev/packages/network_type_reachability/versions/1.2.1)
 
 ***
 ## Permission_handler settings

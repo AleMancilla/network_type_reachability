@@ -24,11 +24,13 @@ enum InternetStatusConnection {
 }
 
 class NetworkTypeReachability {
-  static NetworkTypeReachability _instance;
+  // make this nullable by adding '?'
+  static NetworkTypeReachability? _instance;
+
   factory NetworkTypeReachability() {
     DartPingIOS.register();
     _instance ??= NetworkTypeReachability._();
-    return _instance;
+    return _instance!;
   }
   NetworkTypeReachability._();
 
@@ -38,7 +40,7 @@ class NetworkTypeReachability {
   static const EventChannel _eventChannel =
       EventChannel("flutter_plugin_reachability_status");
 
-  Stream<NetworkStatus> _onNetworkStateChanged;
+  Stream<NetworkStatus>? _onNetworkStateChanged;
 
   /// currentNetworkStatus obtain the status network in live
   Stream<NetworkStatus> get onNetworkStateChanged {
@@ -46,7 +48,7 @@ class NetworkTypeReachability {
         .receiveBroadcastStream()
         .map((event) => event.toString())
         .map(_convertFromState);
-    return _onNetworkStateChanged;
+    return _onNetworkStateChanged!;
   }
 
   /// currentNetworkStatus obtain the status network
@@ -98,16 +100,16 @@ class NetworkTypeReachability {
         .catchError((e) {
       return null;
     }).onError((error, stackTrace) {
-      return null;
+      return throw error!;
     });
     if (showLogs) {
       log('Running PING ===== > $pingData');
     }
     try {
-      if (pingData.summary.transmitted == pingData.summary.received) {
+      if (pingData.summary?.transmitted == pingData.summary?.received) {
         return InternetStatusConnection.withInternet;
-      } else if (pingData.summary.transmitted > 0 &&
-          pingData.summary.received > 0) {
+      } else if (pingData.summary!.transmitted > 0 &&
+          pingData.summary!.received > 0) {
         return InternetStatusConnection.unstableInternet;
       } else {
         return InternetStatusConnection.withoutInternet;
@@ -126,7 +128,7 @@ class NetworkTypeReachability {
 
   Stream<InternetStatusConnection> getStreamInternetConnection(
       {showLogs = false}) async* {
-    InternetStatusConnection globalStatusConnection;
+    InternetStatusConnection? globalStatusConnection;
     while (listenInternetConnection) {
       try {
         InternetStatusConnection statusConnection =

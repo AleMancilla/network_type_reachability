@@ -1,3 +1,5 @@
+## 1.3.0 - NullSafety
+* Support NullSafety
 ## 1.2.1 - recommendation
 * to not consume a lot of mobile data
 ## 1.2.0 - Add Internet Connection
