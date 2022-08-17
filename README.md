@@ -5,8 +5,8 @@ This library is based on and inspired by the library "[flutter_reachability](htt
 This library uses the following dependencies
 
 [permission_handler: 9.2.0](https://pub.dev/packages/permission_handler/versions/9.2.0)<br>
-[dart_ping: ^6.1.2](https://pub.dev/packages/dart_ping)<br>
-[dart_ping_ios: ^1.1.0](https://pub.dev/packages/dart_ping_ios)
+[dart_ping: ^6.1.2](https://pub.dev/packages/dart_ping/versions/6.1.2)<br>
+[dart_ping_ios: ^1.1.0](https://pub.dev/packages/dart_ping_ios/versions/1.1.0)
 
 Next, the necessary configurations for the correct operation of "Network_type_reachability" will be shown, but it is recommended to take a look at the original packages.
 
@@ -312,7 +312,7 @@ Note: Android must dynamically obtain the READ_PHONE_STATE permission to judge 2
 ```dart
 
   String _networkTypeSuscription = 'Unknown';
-  StreamSubscription<NetworkStatus> subscriptionNetworkType;
+  StreamSubscription<NetworkStatus>? subscriptionNetworkType;
 
   @override
   void initState() {
@@ -323,7 +323,7 @@ Note: Android must dynamically obtain the READ_PHONE_STATE permission to judge 2
   @override
   void dispose() {
     super.dispose();
-    subscriptionNetworkType.cancel();
+    subscriptionNetworkType?.cancel();
   }
 
   _listenNetworkStatus() async {
@@ -395,7 +395,7 @@ NOTE: It is recommended not to keep the listening state constantly since behind 
 ```dart
 
   String connectivityInternetSuscription = 'Unknown';
-  StreamSubscription<InternetStatusConnection> subscriptionInternetConnection;
+  StreamSubscription<InternetStatusConnection>? subscriptionInternetConnection;
 
   @override
   void initState() {
@@ -406,7 +406,7 @@ NOTE: It is recommended not to keep the listening state constantly since behind 
   @override
   void dispose() {
     super.dispose();
-    subscriptionInternetConnection.cancel();
+    subscriptionInternetConnection?.cancel();
     NetworkTypeReachability().listenInternetConnection = false;
   }
 

@@ -1,3 +1,5 @@
+## 1.3.1 - NullSafety code
+* Support NullSafety code example
 ## 1.3.0 - NullSafety
 * Support NullSafety
 ## 1.2.1 - recommendation

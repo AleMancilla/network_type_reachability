@@ -282,13 +282,10 @@ class _MyAppState extends State<MyApp> {
     switch (data) {
       case 'Unknown':
         return Colors.yellow.shade100;
-        break;
       case 'NetworkStatus.unreachable':
         return Colors.red.shade100;
-        break;
       default:
         return Colors.green.shade100;
-        break;
     }
   }
 
@@ -299,19 +296,14 @@ class _MyAppState extends State<MyApp> {
     switch (data) {
       case 'Unknown':
         return Colors.yellow.shade100;
-        break;
       case 'InternetStatusConnection.withoutInternet':
         return Colors.red.shade100;
-        break;
       case 'InternetStatusConnection.withInternet':
         return Colors.green.shade100;
-        break;
       case 'InternetStatusConnection.unstableInternet':
         return Colors.brown.shade100;
-        break;
       default:
         return Colors.yellow.shade100;
-        break;
     }
   }
 }
