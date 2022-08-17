@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -56,6 +55,7 @@ class NetworkTypeReachability {
     return _convertFromState(state);
   }
 
+  /// NetworkStatus identify tipe of connection
   NetworkStatus _convertFromState(String state) {
     switch (state) {
       case "unreach":
@@ -77,9 +77,13 @@ class NetworkTypeReachability {
     }
   }
 
+  /// required to distinguish mobile internet from 2g,3g,4g,5g
   Future<PermissionStatus> get getPermisionsAndroid async =>
       await Permission.phone.request();
 
+  /// performs a sending and receiving of packets to an internet page,
+  /// if the number of packets sent is equal to the number of packets received
+  /// then if there is a good internet connection
   Future<InternetStatusConnection> getInternetStatusConnection({
     urlTest = 'google.com',
     countPing = 3,
@@ -113,6 +117,7 @@ class NetworkTypeReachability {
     }
   }
 
+  /// from here on the code focuses on maintaining a listening state wondering if there is an internet connection or not
   bool listenInternet = true;
   bool get listenInternetConnection => listenInternet;
   set listenInternetConnection(data) {

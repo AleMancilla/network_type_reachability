@@ -1,6 +1,6 @@
 name: network_type_reachability
-description: This plugin allows Flutter applications to detect network changes. You can know the detailed mobile network types such as 2G, 3G, 4G, 5G. This plug-in is suitable for iOS and Android
-version: 1.0.1
+description: This plugin allows Flutter apps to detect network changes. You can know the detailed mobile network types, such as 2G, 3G, 4G, 5G. This plugin is suitable for iOS and Android, it can also detect if the internet connection status is real or not working and even if it is unstable
+version: 1.2.0
 homepage: https://demoesp8266-a5e85.web.app/
 
 environment:
