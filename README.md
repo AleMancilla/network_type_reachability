@@ -387,7 +387,7 @@ Note: Android must dynamically obtain the READ_PHONE_STATE permission to judge 2
     
 ```
 4. get Status Internet Conection Suscription
-
+NOTE: It is recommended not to keep the listening state constantly since behind what it does is load the google.com page and this would constantly consume many megabytes of internet over time
 ```dart
 
   String connectivityInternetSuscription = 'Unknown';
