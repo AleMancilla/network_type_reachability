@@ -1,3 +1,5 @@
+## 1.3.2 - Add description
+* Add description
 ## 1.3.1 - NullSafety code
 * Support NullSafety code example
 ## 1.3.0 - NullSafety

@@ -1,12 +1,14 @@
 # Network_type_reachability
 
+This plugin allows Flutter apps to detect network changes. You can know the detailed mobile network types, such as 2G, 3G, 4G, 5G. This plugin is suitable for iOS and Android, it can also detect if the internet connection status is real or not working and even if it is unstable, it allows readings in a single call by creating a listener
+
 This library is based on and inspired by the library "[flutter_reachability](https://pub.dev/packages/flutter_reachability)"
 
-This library uses the following dependencies
+This library uses the following dependencies but it is not necessary to place it in pubspec.yalm because everything is already included in the "Network_type_reachability" library
 
-[permission_handler: 9.2.0](https://pub.dev/packages/permission_handler/versions/9.2.0)<br>
-[dart_ping: ^6.1.2](https://pub.dev/packages/dart_ping/versions/6.1.2)<br>
-[dart_ping_ios: ^1.1.0](https://pub.dev/packages/dart_ping_ios/versions/1.1.0)
+- [permission_handler: 9.2.0](https://pub.dev/packages/permission_handler/versions/9.2.0)<br>
+- [dart_ping: ^6.1.2](https://pub.dev/packages/dart_ping/versions/6.1.2)<br>
+- [dart_ping_ios: ^1.1.0](https://pub.dev/packages/dart_ping_ios/versions/1.1.0)
 
 Next, the necessary configurations for the correct operation of "Network_type_reachability" will be shown, but it is recommended to take a look at the original packages.
 
