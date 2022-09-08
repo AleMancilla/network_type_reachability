@@ -76,10 +76,6 @@ class NetworkTypeReachability {
     }
   }
 
-  /// required to distinguish mobile internet from 2g,3g,4g,5g
-  Future<PermissionStatus> get getPermisionsAndroid async =>
-      await Permission.phone.request();
-
   /// performs a sending and receiving of packets to an internet page,
   /// if the number of packets sent is equal to the number of packets received
   /// then if there is a good internet connection

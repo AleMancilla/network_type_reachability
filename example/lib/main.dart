@@ -33,9 +33,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   _listenNetworkStatus() async {
-    if (Platform.isAndroid) {
-      await NetworkTypeReachability().getPermisionsAndroid;
-    }
     subscriptionNetworkType =
         NetworkTypeReachability().onNetworkStateChanged.listen((event) {
       setState(() {
