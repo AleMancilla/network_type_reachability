@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/services.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import 'package:dart_ping/dart_ping.dart';
 import 'package:dart_ping_ios/dart_ping_ios.dart';
@@ -11,10 +10,10 @@ enum NetworkStatus {
   unreachable,
   wifi,
   mobile2G,
-  moblie3G,
-  moblie4G,
-  moblie5G,
-  otherMoblie
+  mobile3G,
+  mobile4G,
+  mobile5G,
+  otherMobile
 }
 
 enum InternetStatusConnection {
@@ -62,16 +61,16 @@ class NetworkTypeReachability {
         return NetworkStatus.unreachable;
       case "mobile2G":
         return NetworkStatus.mobile2G;
-      case "moblie3G":
-        return NetworkStatus.moblie3G;
+      case "mobile3G":
+        return NetworkStatus.mobile3G;
       case "wifi":
         return NetworkStatus.wifi;
-      case "moblie4G":
-        return NetworkStatus.moblie4G;
-      case "moblie5G":
-        return NetworkStatus.moblie5G;
-      case "moblieOther":
-        return NetworkStatus.otherMoblie;
+      case "mobile4G":
+        return NetworkStatus.mobile4G;
+      case "mobile5G":
+        return NetworkStatus.mobile5G;
+      case "mobileOther":
+        return NetworkStatus.otherMobile;
       default:
         return NetworkStatus.unreachable;
     }
@@ -135,7 +134,9 @@ class NetworkTypeReachability {
           globalStatusConnection = statusConnection;
           yield globalStatusConnection;
         }
-      } catch (error) {}
+      } catch (error) {
+        log(error);
+      }
       await Future.delayed(const Duration(seconds: 5));
     }
   }

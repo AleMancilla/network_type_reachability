@@ -289,13 +289,13 @@ Note: Android must dynamically obtain the READ_PHONE_STATE permission to judge 2
       //wifi
       case NetworkStatus.mobile2G:
       //2g
-      case NetworkStatus.moblie3G:
+      case NetworkStatus.mobile3G:
       //3g
-      case NetworkStatus.moblie4G:
+      case NetworkStatus.mobile4G:
       //4g
-      case NetworkStatus.moblie5G:
+      case NetworkStatus.mobile5G:
       //5h
-      case NetworkStatus.otherMoblie:
+      case NetworkStatus.othermobile:
       //other
     }
     setState(() {

@@ -90,15 +90,15 @@ extension SwiftNetworkTypeReachabilityPlugin: FlutterStreamHandler {
                     CTRadioAccessTechnologyCDMAEVDORevA,
                     CTRadioAccessTechnologyCDMAEVDORevB,
                     CTRadioAccessTechnologyeHRPD].contains(access) {
-                    return NetworkStatus.moblie3G.value
+                    return NetworkStatus.mobile3G.value
                 }
 
                 if [CTRadioAccessTechnologyLTE].contains(access) {
-                    return NetworkStatus.moblie4G.value
+                    return NetworkStatus.mobile4G.value
                 }
                 if #available(iOS 14.1, *), [CTRadioAccessTechnologyNRNSA,
                                              CTRadioAccessTechnologyNR].contains(access) {
-                    return NetworkStatus.moblie5G.value
+                    return NetworkStatus.mobile5G.value
                 }
                 return NetworkStatus.other.value
 
@@ -113,11 +113,11 @@ extension SwiftNetworkTypeReachabilityPlugin: FlutterStreamHandler {
     enum NetworkStatus: String {
         case unreach = "unreach"
         case mobile2G = "mobile2G"
-        case moblie3G = "moblie3G"
+        case mobile3G = "mobile3G"
         case wifi = "wifi"
-        case moblie4G = "moblie4G"
-        case moblie5G = "moblie5G"
-        case other = "moblieOther"
+        case mobile4G = "mobile4G"
+        case mobile5G = "mobile5G"
+        case other = "mobileOther"
         var value: String{
             return "\(self.rawValue)"
         }
