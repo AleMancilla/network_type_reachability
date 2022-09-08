@@ -127,24 +127,24 @@ private  fun getNetworkState(connectivityManager: ConnectivityManager, context: 
 @RequiresApi(Build.VERSION_CODES.N)
 private  fun getMobileNetworkType(context: Context, connectivityManager: ConnectivityManager): String {
   if (context == null) {
-    return NetworkState.moblieOther.toString()
+    return NetworkState.mobileOther.toString()
   }
   
   val networkInfo = connectivityManager.activeNetworkInfo
   if (networkInfo == null) {
-    return NetworkState.moblieOther.toString()
+    return NetworkState.mobileOther.toString()
   }
-  val moblie2G_types = arrayOf(
+  val mobile2G_types = arrayOf(
           TelephonyManager.NETWORK_TYPE_1xRTT,
           TelephonyManager.NETWORK_TYPE_EDGE,
           TelephonyManager.NETWORK_TYPE_GPRS,
           TelephonyManager.NETWORK_TYPE_CDMA,
           TelephonyManager.NETWORK_TYPE_IDEN
   )
-  if (networkInfo.subtype in moblie2G_types) {
-    return NetworkState.moblie2G.toString()
+  if (networkInfo.subtype in mobile2G_types) {
+    return NetworkState.mobile2G.toString()
   }
-  val moblie3G_types = arrayOf(
+  val mobile3G_types = arrayOf(
           TelephonyManager.NETWORK_TYPE_UMTS,
           TelephonyManager.NETWORK_TYPE_EVDO_0,
           TelephonyManager.NETWORK_TYPE_EVDO_A,
@@ -155,25 +155,25 @@ private  fun getMobileNetworkType(context: Context, connectivityManager: Connect
           TelephonyManager.NETWORK_TYPE_EHRPD,
           TelephonyManager.NETWORK_TYPE_HSPAP
   )
-  if (networkInfo.subtype in moblie3G_types) {
-    return NetworkState.moblie3G.toString()
+  if (networkInfo.subtype in mobile3G_types) {
+    return NetworkState.mobile3G.toString()
   }
   if (networkInfo.subtype == TelephonyManager.NETWORK_TYPE_LTE) {
-    return NetworkState.moblie4G.toString()
+    return NetworkState.mobile4G.toString()
   }
   if (networkInfo.subtype == TelephonyManager.NETWORK_TYPE_NR) {
-    return NetworkState.moblie5G.toString()
+    return NetworkState.mobile5G.toString()
   }
-  return NetworkState.moblieOther.toString()
+  return NetworkState.mobileOther.toString()
 }
 
 
 private enum class NetworkState {
   unReachable,
-  moblie2G,
-  moblie3G,
+  mobile2G,
+  mobile3G,
   wifi,
-  moblie4G,
-  moblie5G,
-  moblieOther
+  mobile4G,
+  mobile5G,
+  mobileOther
 }
