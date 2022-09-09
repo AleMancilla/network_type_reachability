@@ -425,6 +425,17 @@ NOTE: It is recommended not to keep the listening state constantly since behind 
     ],
   )
 
+
+  _listenInternetConnection() async {
+    subscriptionInternetConnection = NetworkTypeReachability()
+        .getStreamInternetConnection(showLogs: false)
+        .listen((event) {
+      setState(() {
+        connectivityInternetSuscription = event.toString();
+      });
+    });
+  }
+
 ```
 
 ## Getting Started

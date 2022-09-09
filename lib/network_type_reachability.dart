@@ -92,6 +92,10 @@ class NetworkTypeReachability {
     timeOutIntents = 5,
     showLogs = false,
   }) async {
+    NetworkStatus networkStatus = await currentNetworkStatus();
+    if (networkStatus == NetworkStatus.unreachable) {
+      return InternetStatusConnection.withoutInternet;
+    }
     Ping ping = Ping(urlTest, count: countPing);
     PingData pingData = await ping.stream.last
         .timeout(
