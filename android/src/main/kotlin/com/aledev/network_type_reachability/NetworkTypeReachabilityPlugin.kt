@@ -103,7 +103,7 @@ private  fun getNetworkState(connectivityManager: ConnectivityManager, context: 
     }
 
     if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-      return getMobileNetworkType(context)
+      return getMobileNetworkType(context, connectivityManager)
     }
   }else{
     val networkInfo = connectivityManager.activeNetworkInfo
@@ -116,7 +116,7 @@ private  fun getNetworkState(connectivityManager: ConnectivityManager, context: 
         return NetworkState.wifi.toString()
       }
       ConnectivityManager.TYPE_MOBILE,ConnectivityManager.TYPE_MOBILE_DUN,ConnectivityManager.TYPE_MOBILE_HIPRI -> {
-        return getMobileNetworkType(context)
+        return getMobileNetworkType(context, connectivityManager)
       }
       else -> return NetworkState.unReachable.toString()
     }
@@ -125,29 +125,26 @@ private  fun getNetworkState(connectivityManager: ConnectivityManager, context: 
 }
 
 @RequiresApi(Build.VERSION_CODES.N)
-private  fun getMobileNetworkType(context: Context): String {
+private  fun getMobileNetworkType(context: Context, connectivityManager: ConnectivityManager): String {
   if (context == null) {
-    return NetworkState.moblieOther.toString()
+    return NetworkState.mobileOther.toString()
   }
-
-  //在这里权限检查
-  val ret =  ContextCompat.checkSelfPermission(context,android.Manifest.permission.READ_PHONE_STATE)
-  if (ret == PackageManager.PERMISSION_DENIED) {
-    return NetworkState.moblieOther.toString()
+  
+  val networkInfo = connectivityManager.activeNetworkInfo
+  if (networkInfo == null) {
+    return NetworkState.mobileOther.toString()
   }
-
-  val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-  val moblie2G_types = arrayOf(
+  val mobile2G_types = arrayOf(
           TelephonyManager.NETWORK_TYPE_1xRTT,
           TelephonyManager.NETWORK_TYPE_EDGE,
           TelephonyManager.NETWORK_TYPE_GPRS,
           TelephonyManager.NETWORK_TYPE_CDMA,
           TelephonyManager.NETWORK_TYPE_IDEN
   )
-  if (telephonyManager.dataNetworkType in moblie2G_types) {
-    return NetworkState.moblie2G.toString()
+  if (networkInfo.subtype in mobile2G_types) {
+    return NetworkState.mobile2G.toString()
   }
-  val moblie3G_types = arrayOf(
+  val mobile3G_types = arrayOf(
           TelephonyManager.NETWORK_TYPE_UMTS,
           TelephonyManager.NETWORK_TYPE_EVDO_0,
           TelephonyManager.NETWORK_TYPE_EVDO_A,
@@ -158,25 +155,25 @@ private  fun getMobileNetworkType(context: Context): String {
           TelephonyManager.NETWORK_TYPE_EHRPD,
           TelephonyManager.NETWORK_TYPE_HSPAP
   )
-  if (telephonyManager.dataNetworkType in moblie3G_types) {
-    return NetworkState.moblie3G.toString()
+  if (networkInfo.subtype in mobile3G_types) {
+    return NetworkState.mobile3G.toString()
   }
-  if (telephonyManager.dataNetworkType == TelephonyManager.NETWORK_TYPE_LTE) {
-    return NetworkState.moblie4G.toString()
+  if (networkInfo.subtype == TelephonyManager.NETWORK_TYPE_LTE) {
+    return NetworkState.mobile4G.toString()
   }
-  if (telephonyManager.dataNetworkType == TelephonyManager.NETWORK_TYPE_NR) {
-    return NetworkState.moblie5G.toString()
+  if (networkInfo.subtype == TelephonyManager.NETWORK_TYPE_NR) {
+    return NetworkState.mobile5G.toString()
   }
-  return NetworkState.moblieOther.toString()
+  return NetworkState.mobileOther.toString()
 }
 
 
 private enum class NetworkState {
   unReachable,
-  moblie2G,
-  moblie3G,
+  mobile2G,
+  mobile3G,
   wifi,
-  moblie4G,
-  moblie5G,
-  moblieOther
+  mobile4G,
+  mobile5G,
+  mobileOther
 }

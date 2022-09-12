@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -35,9 +33,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   _listenNetworkStatus() async {
-    if (Platform.isAndroid) {
-      await NetworkTypeReachability().getPermisionsAndroid;
-    }
     subscriptionNetworkType =
         NetworkTypeReachability().onNetworkStateChanged.listen((event) {
       setState(() {
@@ -57,9 +52,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   _getCurrentNetworkStatus() async {
-    if (Platform.isAndroid) {
-      await NetworkTypeReachability().getPermisionsAndroid;
-    }
     NetworkStatus status =
         await NetworkTypeReachability().currentNetworkStatus();
     switch (status) {
@@ -69,13 +61,13 @@ class _MyAppState extends State<MyApp> {
       //wifi
       case NetworkStatus.mobile2G:
       //2g
-      case NetworkStatus.moblie3G:
+      case NetworkStatus.mobile3G:
       //3g
-      case NetworkStatus.moblie4G:
+      case NetworkStatus.mobile4G:
       //4g
-      case NetworkStatus.moblie5G:
+      case NetworkStatus.mobile5G:
       //5h
-      case NetworkStatus.otherMoblie:
+      case NetworkStatus.otherMobile:
       //other
     }
     setState(() {
@@ -275,10 +267,10 @@ class _MyAppState extends State<MyApp> {
     // case NetworkStatus.unreachable:
     // case NetworkStatus.wifi:
     // case NetworkStatus.mobile2G:
-    // case NetworkStatus.moblie3G:
-    // case NetworkStatus.moblie4G:
-    // case NetworkStatus.moblie5G:
-    // case NetworkStatus.otherMoblie:
+    // case NetworkStatus.mobile3G:
+    // case NetworkStatus.mobile4G:
+    // case NetworkStatus.mobile5G:
+    // case NetworkStatus.othermobile:
     switch (data) {
       case 'Unknown':
         return Colors.yellow.shade100;
